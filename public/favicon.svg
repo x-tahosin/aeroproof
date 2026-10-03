@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <rect width="64" height="64" rx="14" fill="#070c18"/>
+  <circle cx="32" cy="32" r="26" stroke="#00f2fe" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.4"/>
+  <circle cx="32" cy="32" r="16" stroke="#00f2fe" stroke-width="1" opacity="0.3"/>
+  <path d="M32 10 L32 54 M10 32 L54 32" stroke="#00f2fe" stroke-width="1" stroke-dasharray="2 4" opacity="0.3"/>
+  <!-- Aircraft Silhouette -->
+  <path d="M32 16 L35 26 L48 34 L48 38 L35 35 L34 46 L39 50 L39 53 L32 51 L25 53 L25 50 L30 46 L29 35 L16 38 L16 34 L29 26 Z" fill="#00f2fe" stroke="#38bdf8" stroke-width="1.5" stroke-linejoin="round"/>
+  <!-- Status Indicator Dot -->
+  <circle cx="32" cy="18" r="2.5" fill="#10b981"/>
+</svg>
