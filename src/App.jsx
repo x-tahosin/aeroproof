@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import Header from './components/Header';
-import FlightConfigBar from './components/FlightConfigBar';
-import AircraftCockpitView from './components/AircraftCockpitView';
-import SystemSelector from './components/SystemSelector';
-import DispatchDecisionCard from './components/DispatchDecisionCard';
-import RegulatoryConflictAuditor from './components/RegulatoryConflictAuditor';
-import SanityMcpTrace from './components/SanityMcpTrace';
-import ScenarioPresets from './components/ScenarioPresets';
+import Navbar from './components/Navbar';
+import LandingHeroView from './components/LandingHeroView';
+import MainCockpitView from './components/MainCockpitView';
+import SystemsVisualizerView from './components/SystemsVisualizerView';
+import AuditorView from './components/AuditorView';
+import WhatIfSimulatorView from './components/WhatIfSimulatorView';
+import AgentTraceView from './components/AgentTraceView';
+
 import SanityProjectModal from './components/SanityProjectModal';
 import PICSignoffModal from './components/PICSignoffModal';
 
@@ -20,12 +20,14 @@ import { sanityService } from './sanity/client';
 import { soundEngine } from './sound/avionicsAudio';
 
 export default function App() {
-  const [aircraft, setAircraft] = useState(INITIAL_AIRCRAFT_TYPES[0]); // B737-800
+  const [activeView, setActiveView] = useState('hero'); // 'hero', 'cockpit', 'systems', 'auditor', 'simulator', 'trace'
+  const [aircraft, setAircraft] = useState(INITIAL_AIRCRAFT_TYPES[0]); // Boeing 737-800
   const [selectedFailures, setSelectedFailures] = useState([]);
+  
   const [telemetry, setTelemetry] = useState({
     depIcao: 'KDEN',
     arrIcao: 'KLAX',
-    oatTemperature: 22,
+    oatTemperature: 24,
     cruisingAltitude: 370,
     runwayCondition: 'DRY',
     isEtops: false,
@@ -82,95 +84,81 @@ export default function App() {
     });
   };
 
-  const handleSelectAircraft = (newAc) => {
-    setAircraft(newAc);
-    // filter out failures belonging to the other aircraft
-    setSelectedFailures(prev => prev.filter(fId => {
-      const itm = INITIAL_MEL_ITEMS.find(m => m._id === fId);
-      return itm && itm.aircraftTypeId === newAc._id;
-    }));
-    setTelemetry(prev => ({ ...prev, aircraftCeiling: newAc.maxCruisingCeiling }));
-  };
-
-  const handleApplyScenario = (scenario) => {
-    const targetAc = INITIAL_AIRCRAFT_TYPES.find(a => a._id === scenario.aircraftId) || aircraft;
-    setAircraft(targetAc);
-    setSelectedFailures(scenario.failures);
-    setTelemetry(prev => ({
-      ...prev,
-      ...scenario.telemetry,
-      aircraftCeiling: targetAc.maxCruisingCeiling
-    }));
-  };
-
   return (
-    <div style={{ minHeight: '100vh', padding: '16px 24px 60px', maxWidth: '1440px', margin: '0 auto' }}>
+    <div style={{ minHeight: '100vh', padding: '16px 24px 60px', maxWidth: '1480px', margin: '0 auto' }}>
       
-      {/* Optional subtle CRT scanlines overlay */}
-      <div className="scanlines-overlay" />
+      {/* Subtle Hexagonal & Dot Grid */}
+      <div className="hex-grid-overlay" />
 
-      {/* Cockpit EFB Header */}
-      <Header
-        aircraft={aircraft}
-        onSelectAircraft={handleSelectAircraft}
-        aircraftList={INITIAL_AIRCRAFT_TYPES}
+      {/* Top Navigation Bar */}
+      <Navbar
+        activeView={activeView}
+        onSelectView={setActiveView}
         onOpenSanityModal={() => setIsSanityModalOpen(true)}
       />
 
-      {/* Flight Configuration & Environmental Telemetry */}
-      <FlightConfigBar
-        telemetry={telemetry}
-        onChangeTelemetry={setTelemetry}
-      />
+      {/* View Switcher */}
+      {activeView === 'hero' && (
+        <LandingHeroView
+          onEnterCockpit={() => setActiveView('cockpit')}
+          onSelectView={setActiveView}
+        />
+      )}
 
-      {/* 1-Click Judge Evaluation Scenario Presets */}
-      <ScenarioPresets
-        onApplyScenario={handleApplyScenario}
-      />
-
-      {/* Central Glass Cockpit Dispatch Status */}
-      <div style={{ marginBottom: '24px' }}>
-        <DispatchDecisionCard
+      {activeView === 'cockpit' && (
+        <MainCockpitView
+          aircraft={aircraft}
+          onSelectAircraft={setAircraft}
+          telemetry={telemetry}
+          onChangeTelemetry={setTelemetry}
+          selectedFailures={selectedFailures}
+          onToggleFailure={handleToggleFailure}
           dispatchResult={dispatchResult}
           onOpenSignoffModal={() => setIsSignoffModalOpen(true)}
         />
-      </div>
+      )}
 
-      {/* Main Grid: Left (Subsystem Topology) & Right (System Fault Matrix) */}
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(420px, 1fr))',
-        gap: '20px',
-        marginBottom: '24px'
-      }}>
-        {/* Left: Aircraft Visual Topology */}
-        <AircraftCockpitView
+      {activeView === 'systems' && (
+        <SystemsVisualizerView
           aircraft={aircraft}
           selectedFailures={selectedFailures}
+          onToggleFailure={handleToggleFailure}
           melItems={INITIAL_MEL_ITEMS}
+          dispatchResult={dispatchResult}
+        />
+      )}
+
+      {activeView === 'auditor' && (
+        <AuditorView
+          aircraft={aircraft}
+          telemetry={telemetry}
+          onChangeTelemetry={setTelemetry}
+          selectedFailures={selectedFailures}
           onToggleFailure={handleToggleFailure}
           dispatchResult={dispatchResult}
         />
+      )}
 
-        {/* Right: ATA 100 System Matrix & Fault Injection */}
-        <SystemSelector
-          ataSystems={INITIAL_ATA_SYSTEMS}
-          melItems={INITIAL_MEL_ITEMS}
+      {activeView === 'simulator' && (
+        <WhatIfSimulatorView
           aircraft={aircraft}
+          telemetry={telemetry}
+          onChangeTelemetry={setTelemetry}
           selectedFailures={selectedFailures}
           onToggleFailure={handleToggleFailure}
+          dispatchResult={dispatchResult}
         />
-      </div>
+      )}
 
-      {/* The Crucial Path 1 Centerpiece: Side-by-Side Regulatory Conflict Auditor */}
-      <RegulatoryConflictAuditor
-        clashes={dispatchResult?.clashes || []}
-      />
-
-      {/* Sanity Context MCP Agent Trace Log & GROQ Terminal */}
-      <SanityMcpTrace
-        traceLogs={traceLogs}
-      />
+      {activeView === 'trace' && (
+        <AgentTraceView
+          aircraft={aircraft}
+          telemetry={telemetry}
+          selectedFailures={selectedFailures}
+          dispatchResult={dispatchResult}
+          traceLogs={traceLogs}
+        />
+      )}
 
       {/* Modals */}
       <SanityProjectModal
@@ -189,7 +177,7 @@ export default function App() {
       />
 
       {/* Footer */}
-      <footer style={{ marginTop: '40px', textAlign: 'center', color: 'var(--text-dim)', fontSize: '11px', fontFamily: 'var(--font-mono)' }}>
+      <footer style={{ marginTop: '40px', textAlign: 'center', color: 'var(--text-muted)', fontSize: '11px', fontFamily: 'var(--font-mono)' }}>
         AEROPROOF © 2026 • Built for the DEV Sanity Challenge (Path 1: Ship an Agent That Queries Real Content) • Powered by Sanity Context MCP & Content Lake
       </footer>
 

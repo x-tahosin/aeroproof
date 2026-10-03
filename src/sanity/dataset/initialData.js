@@ -80,6 +80,24 @@ export const INITIAL_ATA_SYSTEMS = [
     name: 'Auxiliary Power Unit (APU)',
     description: 'Garrett/Honeywell 131-9 gas turbine auxiliary generator providing ground and in-flight backup electrical power and pneumatic start air.',
     criticalityTier: 'OPERATIONAL_RESTRICTED'
+  },
+  {
+    _id: 'ata-28',
+    _type: 'ataSystem',
+    chapter: 28,
+    code: 'ATA 28',
+    name: 'Fuel Storage & Boost Pumps',
+    description: 'Left, right, and center fuel tank boost pumps, crossfeed manifold valve, defueling valves, and quantity indication transmitters.',
+    criticalityTier: 'FLIGHT_CRITICAL'
+  },
+  {
+    _id: 'ata-27',
+    _type: 'ataSystem',
+    chapter: 27,
+    code: 'ATA 27',
+    name: 'Flight Controls & Actuation',
+    description: 'Elevator, aileron, rudder power control units (PCUs), trailing edge flaps, leading edge slats, and flight spoiler mixers.',
+    criticalityTier: 'FLIGHT_CRITICAL'
   }
 ];
 
@@ -414,6 +432,42 @@ export const INITIAL_MEL_ITEMS = [
     maintenanceProcedureRequired: true,
     dispatchConditions: 'NO DISPATCH if unserviceable. Cat A emergency repair mandated.',
     altitudeRestrictionFL: 0
+  },
+
+  // ATA 28 Items (Fuel)
+  {
+    _id: 'mel-28-21-01',
+    _type: 'melItem',
+    itemCode: '28-21-01',
+    title: 'Main Fuel Tank Boost Pump (Left or Right)',
+    ataSystemId: 'ata-28',
+    aircraftTypeId: 'ac-b738',
+    repairCategory: 'C',
+    repairIntervalDays: '10 Days',
+    installedQty: 4,
+    requiredQty: 3,
+    operationsProcedureRequired: true,
+    maintenanceProcedureRequired: true,
+    dispatchConditions: 'One main tank boost pump may be inoperative provided crossfeed valve is verified operational and opposite tank boost pumps are operative.',
+    altitudeRestrictionFL: 370
+  },
+
+  // ATA 27 Items (Flight Controls)
+  {
+    _id: 'mel-27-51-01',
+    _type: 'melItem',
+    itemCode: '27-51-01',
+    title: 'Trailing Edge Flap Position Transmitter Channel 2',
+    ataSystemId: 'ata-27',
+    aircraftTypeId: 'ac-b738',
+    repairCategory: 'B',
+    repairIntervalDays: '3 Days',
+    installedQty: 2,
+    requiredQty: 1,
+    operationsProcedureRequired: true,
+    maintenanceProcedureRequired: false,
+    dispatchConditions: 'One channel may be inoperative provided primary mechanical flap indicator agrees with alternate flap readout prior to dispatch.',
+    altitudeRestrictionFL: 410
   }
 ];
 
