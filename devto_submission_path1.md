@@ -21,7 +21,7 @@ Within 150 milliseconds, standard vector search and naive RAG pull up Boeing 737
 
 The dispatcher enters FL240 into the flight plan. The search is satisfied. The captain signs the release. The twin CFM56 turbofans roar to life, and the jet rotates off Runway 26L.
 
-Twelve minutes into the climb through 18,000 feet, the cockpit filling with toxic acrid smoke. Down below the flight deck floor, inside the electronic equipment (EE) bay, the main avionics cooling manifold has suffocated in the desert heat. With Pack 1 dead and single-pack bleed airflow restricted, the flight management computers and electrical buses suffered thermal runaway.
+Twelve minutes into the climb through 18,000 feet, the cockpit fills with toxic acrid smoke. Down below the flight deck floor, inside the electronic equipment (EE) bay, the main avionics cooling manifold has suffocated in the desert heat. With Pack 1 dead and single-pack bleed airflow restricted, the flight management computers and electrical buses suffered thermal runaway.
 
 Taking off on that flight was not just an operational oversight. It was a violation of federal law that put 178 souls in mortal danger.
 
@@ -62,7 +62,9 @@ When the Sanity team laid down the gauntlet for Path One:
 
 That prompt described the core problem of commercial aviation. In high-stakes flight operations, semantic similarity is not legal truth. Two engineering documents can share 98% of the same vocabulary while demanding opposite actions.
 
-To solve this, we built **AEROPROOF**.
+To solve this, we engineered **AEROPROOF**.
+
+![AEROPROOF Mission Briefing and Flight Deck Console](https://i.imgur.com/cTQT6mf.png)
 
 ---
 
@@ -70,7 +72,7 @@ To solve this, we built **AEROPROOF**.
 
 AEROPROOF is an autonomous aviation airworthiness dispatch and compliance verification cockpit powered by **Sanity Context MCP** and **Sanity Content Lake**.
 
-![AEROPROOF Nominal Glass Cockpit Console](https://i.imgur.com/Str6Qyx.png)
+![AEROPROOF Nominal Glass Cockpit Console](https://i.imgur.com/H1JN5VN.png)
 
 It models the multi-layered regulatory architecture of commercial airliners across the Boeing 737-800 and Airbus A320neo fleets. When maintenance defers a mechanical fault, AEROPROOF evaluates that defect against federal airworthiness directives, carrier operational specifications (OpsSpecs), and live telemetry.
 
@@ -83,7 +85,7 @@ It models the multi-layered regulatory architecture of commercial airliners acro
 5. **Procedural Avionics Sound Engine:** Cockpit Master Caution chimes, intermittent warning horns, and three-tone legal dispatch release signals synthesized in real-time through the Web Audio API without external audio files.
 6. **Captain and Dispatcher Dual Cryptographic Sign-Off:** Implements 14 CFR § 121.663 mandatory mutual concurrence with tamper-evident digital signatures.
 
-![Airframe ATA Subsystem Topology](https://i.imgur.com/Ad76lNm.png)
+![Airframe ATA Subsystem Topology](https://i.imgur.com/zH026m4.png)
 
 ---
 
@@ -94,11 +96,9 @@ Experience AEROPROOF running live in your browser:
 - **Interactive Glass Cockpit:** [https://x-tahosin.github.io/aeroproof/](https://x-tahosin.github.io/aeroproof/)
 - **Live Flight Simulation:** Toggle airframes, trigger system faults, adjust outside air temperatures from -10°C to 45°C, simulate contaminated runways, and watch the Sanity Context MCP agent dynamically arbitrate conflicting regulations.
 
-![Cockpit In-Flight Dispatch Arbitration](https://i.imgur.com/Lja0I4P.png)
-
 When an Airworthiness Directive triggers, the system turns red, cockpit warning alerts sound, and the dispatch release button locks down with an explicit federal prohibition warning.
 
-![Emergency Airworthiness Directive Grounding State](https://i.imgur.com/lWAg5iS.png)
+![Emergency Airworthiness Directive Grounding State](https://i.imgur.com/NEmrjpd.png)
 
 ---
 
@@ -236,7 +236,7 @@ When an agent needs to evaluate an inoperative component, it cannot make four di
 
 This query dereferences pointers across the airframe, the ATA chapter, and the contradiction matrix in a single round-trip. The agent receives the whole factual hierarchy rather than an isolated chunk of text.
 
-![Sanity Context MCP Execution Trace](https://i.imgur.com/NLrwTIX.png)
+![Sanity Context MCP Execution Trace](https://i.imgur.com/y19KXU5.png)
 
 ### 3. Dedicated Sanity Context MCP Tools
 
@@ -247,8 +247,6 @@ AEROPROOF exposes three specialized MCP tools to the agent:
 - `sanity_context_get_ad_citation(adNumber)`: Retrieves verified federal citations from the Federal Register, ensuring every decision is backed by statutory references.
 
 Behind the scenes, we paired this with the ultra-fast Groq Llama 3.3 70B Versatile inference engine, generating verified dispatch rationales with complete MCP context traces in under 400 milliseconds.
-
-![Groq Llama 3.3 70B Fast Token Stream](https://i.imgur.com/2R9hCOJ.png)
 
 ---
 
@@ -265,7 +263,7 @@ In commercial aviation, regulatory conflicts are governed by a strict hierarchy 
 3. **Rank 3: Manufacturer Master Minimum Equipment List (MMEL)**. Baseline engineering relief provided by Boeing or Airbus.
 4. **Rank 4: Flight Crew Operating Manual (FCOM)**. Recommended manufacturer operating techniques.
 
-![Regulatory Contradiction Arbitration Matrix](https://i.imgur.com/AgwkaQv.png)
+![Regulatory Contradiction Arbitration Matrix](https://i.imgur.com/TMQbMkS.png)
 
 When AEROPROOF identifies a conflict, it displays the baseline claim and overriding mandate in an intuitive diff matrix. Both texts remain visible with their legal basis, and the system automatically enforces the higher-ranking regulation.
 
@@ -278,7 +276,7 @@ When AEROPROOF identifies a conflict, it displays the baseline claim and overrid
 | **3. Contaminated Runway Autobrake** | Boeing 737-800, Autobrake Inoperative, Slush | MMEL 32-42-02 allows manual pedal braking | **FAA AD 2025-01-08** bans inoperative autobrakes on contaminated runways | **AIRCRAFT GROUNDED (NO-GO)** |
 | **4. ADIRU RVSM Altitude Cap** | Airbus A320neo, ADIRU 2 Inoperative, Planned FL350 | MMEL 34-12-01 allows Cat A 24-hour relief | **FAA OpsSpec B046** prohibits single-ADIRU operations in RVSM airspace (> FL290) | **CONDITIONAL DISPATCH (Cap at FL250)** |
 
-![Environmental and System Telemetry Controls](https://i.imgur.com/AGVNqYe.png)
+![Environmental and System Telemetry Controls](https://i.imgur.com/DP7mIhq.png)
 
 ---
 
@@ -288,7 +286,7 @@ Under federal aviation regulation **14 CFR § 121.663**, no commercial aircraft 
 
 AEROPROOF brings this legal workflow directly into the glass cockpit interface:
 
-![Pilot-in-Command and Dispatcher Dual Sign-Off](https://i.imgur.com/krLfWO1.png)
+![Pilot-in-Command and Dispatcher Dual Sign-Off](https://i.imgur.com/1vDdSQh.png)
 
 - If an Airworthiness Directive issues a NO-GO ruling, the authorization button is locked. A red alert banner explains the statutory violation, preventing unauthorized sign-offs.
 - If the flight qualifies for departure, both officers provide digital authentication.
@@ -307,30 +305,19 @@ In compliance with the Sanity Challenge guidelines, here are the public project 
 - **Public Schema Repository:** [https://github.com/x-tahosin/aeroproof/tree/main/src/sanity/schemas](https://github.com/x-tahosin/aeroproof/tree/main/src/sanity/schemas)
 - **Public Airworthiness Dataset:** [https://github.com/x-tahosin/aeroproof/blob/main/src/sanity/dataset/initialData.js](https://github.com/x-tahosin/aeroproof/blob/main/src/sanity/dataset/initialData.js)
 
----
-
-## Agent Session
-
-During the construction of AEROPROOF, we used modern AI-assisted engineering workflows through Antigravity IDE and Claude 3.7 / Gemini CLI agents. 
-
-The agent helped parse complex FAA regulatory bulletins, verify GROQ relationship queries, build the Web Audio API sound synthesizer, and refine the interactive cockpit UI.
-
-You can inspect the entire commit history and build trajectory on the public GitHub repository:
-
-- **Repository Commits:** [https://github.com/x-tahosin/aeroproof/commits/main](https://github.com/x-tahosin/aeroproof/commits/main)
-- **Architecture Log:** [https://github.com/x-tahosin/aeroproof/blob/main/README.md](https://github.com/x-tahosin/aeroproof/blob/main/README.md)
+![Sanity Project and Knowledge Base Architecture](https://i.imgur.com/0Sulyid.png)
 
 ---
 
 ## What We Learned
 
-Building AEROPROOF solidified a vital principle about the future of software engineering and AI:
+Building AEROPROOF solidified a vital principle about the future of software engineering and compliance:
 
 **Keyword search and vector retrieval are useful for discovery, but catastrophic for compliance.**
 
-In real-world domains like aviation, healthcare, and structural engineering, systems cannot operate on probabilistic hunches. When two regulations contradict each other, an agent cannot guess which one sounds more convincing. It must know the legal hierarchy, understand the environmental triggers, and trace every claim back to an authoritative document.
+In real-world domains like aviation, healthcare, and structural engineering, systems cannot operate on probabilistic hunches. When two regulations contradict each other, software cannot guess which one sounds more convincing. It must know the legal hierarchy, understand the environmental triggers, and trace every claim back to an authoritative document.
 
-By giving an agent structured content through Sanity Content Lake and Sanity Context MCP, you elevate it from an unpredictable text predictor into a reliable compliance engine.
+By giving compliance systems structured content through Sanity Content Lake and Sanity Context MCP, you elevate them from unpredictable text matching into a reliable, deterministic decision engine.
 
 Next time you board a commercial flight on a 34°C afternoon, you can take comfort knowing that the rules keeping you safe are not left to chance.
 
