@@ -1,6 +1,7 @@
 import React from 'react';
 import { Sliders, RefreshCw, AlertCircle, CheckCircle2, ShieldAlert, Plane, Menu, HelpCircle, Activity, Wind, Compass, ShieldCheck } from 'lucide-react';
 import { soundEngine } from '../sound/avionicsAudio';
+import { getAssetUrl } from '../utils/assetUrl';
 
 export default function WhatIfSimulatorView({
   aircraft,
@@ -291,7 +292,7 @@ export default function WhatIfSimulatorView({
         }}>
           {/* 3D Jet Cutout */}
           <img
-            src="/assets/3d/sim_jet_clean.png"
+            src={getAssetUrl('assets/3d/sim_jet_clean.png')}
             alt="3D Holographic Aircraft"
             style={{
               width: '100%',

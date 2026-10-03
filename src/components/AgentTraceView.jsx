@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import { soundEngine } from '../sound/avionicsAudio';
 import { sanityService } from '../sanity/client';
+import { getAssetUrl } from '../utils/assetUrl';
 
 export default function AgentTraceView({
   aircraft,
@@ -475,7 +476,7 @@ export default function AgentTraceView({
                 justifyContent: 'center'
               }}>
                 <img
-                  src="/assets/3d/neural_brain_clean.png"
+                  src={getAssetUrl('assets/3d/neural_brain_clean.png')}
                   alt="3D Holographic Neural Knowledge Graph"
                   style={{
                     width: '100%',

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Plane, Menu, Shield, Snowflake, Zap, Fan, Disc, Radio, Sliders, Activity, Droplets, Target, AlertTriangle, CheckCircle2, Wind } from 'lucide-react';
 import { soundEngine } from '../sound/avionicsAudio';
+import { getAssetUrl } from '../utils/assetUrl';
 
 export default function SystemsVisualizerView({
   aircraft,
@@ -159,7 +160,7 @@ export default function SystemsVisualizerView({
         }}>
           {/* 3D X-Ray Aircraft Image */}
           <img
-            src="/assets/3d/xray_jet_clean.png"
+            src={getAssetUrl('assets/3d/xray_jet_clean.png')}
             alt="Aircraft X-Ray Schematics"
             style={{
               width: '100%',

@@ -4,6 +4,7 @@ import {
   Snowflake, Fan, Target, Activity, Droplets, ArrowRight, Zap, RefreshCw, Layers
 } from 'lucide-react';
 import { soundEngine } from '../sound/avionicsAudio';
+import { getAssetUrl } from '../utils/assetUrl';
 
 import { INITIAL_AIRCRAFT_TYPES, INITIAL_MEL_ITEMS } from '../sanity/dataset/initialData';
 import { sanityService } from '../sanity/client';
@@ -114,7 +115,7 @@ export default function MainCockpitView({
               border: '1px solid rgba(56, 189, 248, 0.2)'
             }}>
               <img
-                src="/assets/3d/cockpit_jet_clean.png"
+                src={getAssetUrl('assets/3d/cockpit_jet_clean.png')}
                 alt="Aircraft Avionics Telemetry"
                 style={{
                   width: '94%',

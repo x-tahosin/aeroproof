@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ArrowRight, Plane, ShieldCheck, Database, Scale, Cpu, Sparkles, Compass, Radio, Activity } from 'lucide-react';
 import { soundEngine } from '../sound/avionicsAudio';
+import { getAssetUrl } from '../utils/assetUrl';
 
 export default function LandingHeroView({ onEnterCockpit, onSelectView }) {
   const [hoveredBadge, setHoveredBadge] = useState(null);
@@ -132,7 +133,7 @@ export default function LandingHeroView({ onEnterCockpit, onSelectView }) {
           transition: 'transform 0.4s ease'
         }}>
           <img
-            src="/assets/3d/hero_jet_clean.png"
+            src={getAssetUrl('assets/3d/hero_jet_clean.png')}
             alt="Boeing 737-800 3D Model"
             style={{
               width: '100%',
