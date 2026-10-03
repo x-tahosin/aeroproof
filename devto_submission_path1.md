@@ -1,6 +1,6 @@
 ---
 title: "The 34°C Runway Trap: Grounding a Boeing 737 When Flight Manuals Collide Using Sanity Context MCP"
-published: false
+published: true
 description: "How we built AEROPROOF, an aviation airworthiness dispatch engine powered by Sanity Context MCP, to stop lethal aircraft dispatches when federal directives overrule manufacturer manuals."
 tags: devchallenge, sanitychallenge, sanity, ai
 canonical_url: https://x-tahosin.github.io/aeroproof/
